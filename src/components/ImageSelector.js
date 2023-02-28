@@ -15,11 +15,12 @@ const ImageSelector = (props) => {
   };
 
   const handleMouseMove = (e) => {
-    if (e.buttons !== 1) return;
+    if (e.buttons !== 1)
+      return;
     const mouseX = e.nativeEvent.offsetX;
     const mouseY = e.nativeEvent.offsetY;
-    const width = Math.abs(endX - startX);
-    const height = Math.abs(endY - startY);
+    // const width = Math.abs(endX - startX);
+    // const height = Math.abs(endY - startY);
     if (mouseX < startX && mouseY < startY) {
       setStartX(mouseX);
       setStartY(mouseY);
@@ -41,8 +42,23 @@ const ImageSelector = (props) => {
     } else if (mouseY > endY) {
       setEndY(mouseY);
     }
+
     console.log(startX, startY, endX, endY);
   };
+
+  const handleMouseMoveinDiv = (e) => {
+    if (e.buttons !== 1)
+      return;
+    const mouseX = e.nativeEvent.offsetX;
+    const mouseY = e.nativeEvent.offsetY;
+
+
+    if (mouseY + startY > startY && mouseX + startX > startX) {
+      setStartY(mouseY + startY)
+      setStartX(mouseX + startX)
+    }
+    console.log(startX, startY, endX, endY, "div");
+  }
 
   const handleMouseUp = (e) => {
     console.log("up");
@@ -52,8 +68,6 @@ const ImageSelector = (props) => {
     position: "absolute",
     border: "2px solid grey",
     pointerEvent: "none",
-    width: "10px",
-    height: "10px",
     right: "-6px",
     bottom: "-6px",
     left: Math.min(startX, endX) + "px",
@@ -72,7 +86,11 @@ const ImageSelector = (props) => {
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
         />
-        <div style={{ ...selectedRegionStyles, cursor: "nwse-resize" }} />
+        <div style={{ ...selectedRegionStyles, cursor: "nwse-resize" }}
+          // onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMoveinDiv}
+        // onMouseUp={handleMouseUp} 
+        />
       </div>
     </>
   );
